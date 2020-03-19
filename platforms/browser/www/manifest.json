@@ -1,0 +1,11 @@
+{
+  "background_color": "#FFF",
+  "display": "standalone",
+  "name": "Tu Eco",
+  "short_name": "Tu Eco",
+  "version": "io.cordova.hellocordova",
+  "description": "App for Tu Eco services",
+  "author": "Tu Eco Team",
+  "icons": [],
+  "start_url": "index.html"
+}

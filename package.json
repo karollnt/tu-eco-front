@@ -1,0 +1,29 @@
+{
+  "name": "tueco",
+  "displayName": "Tu Eco",
+  "version": "1.0.0",
+  "description": "App for Tu Eco services",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ecosystem:cordova"
+  ],
+  "author": "Tu Eco Team",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "cordova-browser": "^6.0.0"
+  },
+  "devDependencies": {
+    "cordova-plugin-whitelist": "^1.3.4"
+  },
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-whitelist": {}
+    },
+    "platforms": [
+      "browser"
+    ]
+  }
+}
