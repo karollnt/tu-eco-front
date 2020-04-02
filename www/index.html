@@ -46,7 +46,7 @@
               <li><a href="about.html"><img src="images/icons/gray/mobile.png" alt="" title="" /><span>About</span></a></li>
               <li><a href="features.html"><img src="images/icons/gray/features.png" alt="" title="" /><span>Features</span></a></li>
 
-              <li><a href="#" data-popup=".popup-login" class="open-popup"><img src="images/icons/gray/lock.png" alt="" title="" /><span>Login</span></a></li>
+              <li><a href="#" data-popup=".popup-login" class="open-popup js-open-login"><img src="images/icons/gray/lock.png" alt="" title="" /><span>Login</span></a></li>
               <li><a href="team.html"><img src="images/icons/gray/users.png" alt="" title="" /><span>Team</span></a></li>
               <li><a href="blog.html"><img src="images/icons/gray/blog.png" alt="" title="" /><span>Blog</span></a></li>    
 
@@ -107,9 +107,9 @@
 
       <div class="user_thumb">
         <div class="user_details">
-          <p>Welcome, <span>Nathalie</span></p>
+          <p>Bienvenido(a), <span class="js-user-name-tag">user</span></p>
         </div>
-        <div class="user_avatar"><img src="images/avatar3.jpg" alt="" title="" /></div>
+        <div class="user_avatar"><img src="images/avatar3.jpg" class="js-user-image" alt="" title="" /></div>
       </div>
 
       <nav class="user-nav">
@@ -118,13 +118,13 @@
           <li><a href="features.html"><img src="images/icons/gray/briefcase.png" alt="" title="" /><span>My Account</span></a></li>
           <li><a href="features.html"><img src="images/icons/gray/message.png" alt="" title="" /><span>Messages</span><strong>12</strong></a></li>
           <li><a href="features.html"><img src="images/icons/gray/love.png" alt="" title="" /><span>Favorites</span><strong>5</strong></a></li>
-          <li><a href="index.html"><img src="images/icons/gray/lock.png" alt="" title="" /><span>Logout</span></a></li>
+          <li><a href="index.html" class="js-logout"><img src="images/icons/gray/lock.png" alt="" title="" /><span>Logout</span></a></li>
         </ul>
       </nav>
     </div>
   </div>
 
-    <div class="views">
+    <div class="views display-none js-main-view">
 
       <div class="view view-main">
 
@@ -205,13 +205,14 @@
     <!-- Login Popup -->
     <div class="popup popup-login">
       <div class="content-block">
-        <h4>LOGIN</h4>
+        <h4>Inicia sesi&oacute;n</h4>
         <div class="loginform">
-          <form id="LoginForm" method="post">
-            <input type="text" name="Username" value="" class="form_input required" placeholder="username" />
-            <input type="password" name="Password" value="" class="form_input required" placeholder="password" />
-            <div class="forgot_pass"><a href="#" data-popup=".popup-forgot" class="open-popup">Forgot Password?</a></div>
-            <input type="submit" name="submit" class="form_submit" id="submit" value="SIGN IN" />
+          <form id="LoginForm" class="js-login-form" method="post">
+            <input type="email" name="correo" value="" class="form_input required" placeholder="correo">
+            <input type="password" name="clave" value="" class="form_input required" placeholder="clave">
+            <div class="forgot_pass"><a href="#" data-popup=".popup-forgot" class="open-popup">Olvidaste tu clave?</a></div>
+            <input type="submit" name="submit" class="form_submit" id="submit" value="Iniciar sesi&oacute;n">
+            <p class="js-login-error"></p>
           </form>
           <div class="signup_bottom">
             <p>Don't have an account?</p>
@@ -287,6 +288,8 @@
     <script src="js/jquery.validate.min.js" ></script>
     <script src="js/swiper.min.js"></script>
     <script src="js/jquery.custom.js"></script>
-    <script src="js/index.js"></script>
+    <script src="js/variables.js"></script>
+    <script src="js/user.js"></script>
+    <script src="js/app.js"></script>
   </body>
 </html>
