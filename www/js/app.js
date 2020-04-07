@@ -21,6 +21,8 @@ var app = {
   setEvents: function () {
     $(document)
       .on('click', '.js-logout', User.logout)
+      .on('change', '.js-register-department', this.fillCitiesSelect)
+      .on('submit', '.js-register-user', User.checkRegisterForm)
       .on('submit', '.js-login-form', User.checkLoginForm);
   },
 
@@ -49,6 +51,41 @@ var app = {
     receivedElement.setAttribute('style', 'display:block;');
 
     console.log('Received Event: ' + id);
+  },
+
+  loadRegisterDepartments: function () {
+    let request = $.ajax({
+      url: Variables.backendURL + 'department/list_departments',
+      method: 'GET'
+    });
+    request.done(function (data) {
+      const html = data.reduce(function (prev, current) {
+        return prev + '<option value="' + current.id + '">' + current.nombre + '</option>';
+      }, '<option value="">Departamento</option>');
+      $('.js-register-department').html(html);
+    });
+  },
+
+  fillCitiesSelect: function (ev) {
+    const select = ev.target;
+    const targetSelector = select.getAttribute('data-target');
+    if (select.value == '') {
+      $(targetSelector).html('<option value="" selected>Ciudad</option>');
+    }
+    let request = $.ajax({
+      url: Variables.backendURL + 'department/get_department_cities',
+      method: 'GET',
+      data: {id: select.value}
+    });
+    request.done(function (data) {
+      const html = data.reduce(function (prev, current) {
+        return prev + '<option value="' + current.id + '">' + current.nombre + '</option>';
+      }, '<option value="">Ciudad</option>');
+      $(targetSelector).html(html);
+    })
+    .fail(function () {
+      $(targetSelector).html('<option value="" selected>Ciudad</option>');
+    });
   }
 };
 
