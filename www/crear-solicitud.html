@@ -9,6 +9,7 @@
   <link rel="apple-touch-startup-image" href="images/apple-touch-startup-image-640x920.png">
   <title>Tu Eco</title>
   <link rel="stylesheet" href="css/swiper.css">
+  <link rel="stylesheet" href="css/bootstrap-grid.min.css">
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,900" rel="stylesheet">
   <style>
@@ -86,20 +87,29 @@
                 </div>
               </div>
 
-              <!-- Slider -->
-              <div class="swiper-container slidertoolbar">
-                <div class="swiper-wrapper">
-                  <div class="swiper-slide" style="background-image:url(images/slide11.jpg);">
-                    <div class="slider-caption">
-                      <h2 data-swiper-parallax="-100%">Mobile UI KIT</h2>
-                      <p data-swiper-parallax="-30%">Design and create, and build the most wonderful place in the world. But it takes people to make the dream a reality.</p>
-                      <a href="about.html" class="slider-caption__more" data-swiper-parallax="-60%">READ MORE</a>
+              <div id="pages_maincontent">
+                <h2 class="page_title">Crear solicitud</h2>
+                <div class="page_single layout_fullwidth_padding">
+                  <form class="contactform js-create-request-form">
+                    <div class="form_row">
+                      <input type="hidden" name="user_id" class="js-user-id" value="0">
+                      <input type="hidden" name="categorias" class="js-request-objects" value="">
+                      <label for="date">Fecha de recogida</label>
+                      <input id="date" type="date" name="date" value="" class="form_input" />
                     </div>
-                  </div>
+                    <div class="form_row">
+                      <label>Objetos a recoger:</label>
+                      <ul class="form_row_right js-object-list"></ul>
+                    </div>
+                    <div class="form_row">
+                      <label for="comments">Detalles adicionales</label>
+                      <textarea id="comments" name="comment" class="form_textarea" rows="10" cols=""></textarea>
+                    </div>
+                    <div class="form_row">
+                      <input type="submit" name="submit" class="form_submit" id="submit" value="Enviar" />
+                    </div>
+                  </form>
                 </div>
-                <div class="swiper-pagination"></div>
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
               </div>
 
               <div class="swiper-container-toolbar swiper-toolbar">
@@ -201,5 +211,6 @@
     <script src="js/variables.js"></script>
     <script src="js/user.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/requests.js"></script>
   </body>
 </html>
