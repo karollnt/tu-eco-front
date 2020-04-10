@@ -3,9 +3,11 @@ const Orders = (function () {
 
   const init = function () {
     $('.js-user-id').val(app.user.id);
-    if (isCreateOrder) {
+    if (typeof isCreateOrder !== 'undefined' && isCreateOrder) {
       getOrderCategories();
       setEvents();
+    } else if (typeof isListOrders !== 'undefined' && isListOrders) {
+      listUserOrders();
     }
   };
 
@@ -72,6 +74,38 @@ const Orders = (function () {
       if (data.valid == true) {
         location.href = 'success.html';
       }
+    });
+  };
+
+  const listUserOrders = function () {
+    if (app.user == null) {
+      return;
+    }
+    let ajax = $.ajax({
+      url: Variables.backendURL + 'order/get_user_orders',
+      data: {user_id: app.user.id},
+      method: 'GET'
+    });
+    ajax.done(function (data) {
+      if (!data || data.length < 1) {
+        return;
+      }
+      const orderListHtml = data.reduce(function (carry, item) {
+        const itemHtml = '<li>'+
+          '<div class="row">' +
+            '<div class="col-7">' +
+              '<p>Fecha: ' + item.fecha + '</p>' +
+              '<p>Ciudad: ' + item.ciudad + '</p>' +
+              '<p>Departamento: ' + item.departamento + '</p>' +
+            '</div>' +
+            '<div class="col-5">' +
+              '<a href="detalle-orden.html?id=' + item.id + '" class="btn">Ver detalles</a>' +
+            '</div>' +
+          '</div>' +
+        '</li>';
+        return carry + itemHtml;
+      }, '');
+      $('.js-orders-list').html(orderListHtml);
     });
   };
 

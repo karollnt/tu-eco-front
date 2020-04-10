@@ -9,6 +9,7 @@
   <link rel="apple-touch-startup-image" href="images/apple-touch-startup-image-640x920.png">
   <title>Tu Eco</title>
   <link rel="stylesheet" href="css/swiper.css">
+  <link rel="stylesheet" href="css/bootstrap-grid.min.css">
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,900" rel="stylesheet">
   <style>
@@ -86,10 +87,11 @@
                 </div>
               </div>
 
-              <!-- Slider -->
               <div id="pages_maincontent">
                 <h2 class="page_title">Mis solicitudes</h2>
-                <ul class="js-orders-list"></ul>
+                <div class="page_single layout_fullwidth_padding">
+                  <ul class="shop_items js-orders-list"></ul>
+                </div>
               </div>
 
               <div class="swiper-container-toolbar swiper-toolbar">
@@ -191,5 +193,7 @@
     <script src="js/variables.js"></script>
     <script src="js/user.js"></script>
     <script src="js/app.js"></script>
+    <script>const isListOrders = true;</script>
+    <script src="js/orders.js"></script>
   </body>
 </html>
