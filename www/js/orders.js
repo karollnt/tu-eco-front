@@ -2,12 +2,14 @@ const Orders = (function () {
   let categories = null;
 
   const init = function () {
-    $('.js-user-id').val(app.user.id);
     if (typeof isCreateOrder !== 'undefined' && isCreateOrder) {
+      $('.js-user-id').val(app.user.id);
       getOrderCategories();
       setEvents();
     } else if (typeof isListOrders !== 'undefined' && isListOrders) {
       listUserOrders();
+    } else if (typeof isViewOrder !== 'undefined' && isViewOrder) {
+      viewOrderDetails();
     }
   };
 
@@ -95,17 +97,103 @@ const Orders = (function () {
           '<div class="row">' +
             '<div class="col-7">' +
               '<p>Fecha: ' + item.fecha + '</p>' +
+              '<p' + (item.fecha_recogida != null && (item.fecha_recogida).indexOf('0000') < 0 ? ' class="color-primary-0"' : '') + '>' +
+                'Fecha recogido: ' + (item.fecha_recogida != null ? item.fecha_recogida.split(' ')[0] : 'No recogido') + '</p>' +
               '<p>Ciudad: ' + item.ciudad + '</p>' +
               '<p>Departamento: ' + item.departamento + '</p>' +
             '</div>' +
             '<div class="col-5">' +
-              '<a href="detalle-orden.html?id=' + item.id + '" class="btn">Ver detalles</a>' +
+              '<a href="detalle-solicitud.html?id=' + item.id + '" class="btn">Ver detalles</a>' +
             '</div>' +
           '</div>' +
         '</li>';
         return carry + itemHtml;
       }, '');
       $('.js-orders-list').html(orderListHtml);
+    });
+  };
+
+  const getAllUrlParams = function (url) {
+    var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
+    var obj = {};
+    if (!queryString) {
+      return null;
+    }
+    queryString = queryString.split('#')[0];
+    var arr = queryString.split('&');
+
+    for (var i = 0; i < arr.length; i++) {
+      var a = arr[i].split('=');
+      var paramName = a[0];
+      var paramValue = typeof (a[1]) === 'undefined' ? true : a[1];
+      paramName = paramName.toLowerCase();
+      if (typeof paramValue === 'string') paramValue = paramValue.toLowerCase();
+      if (paramName.match(/\[(\d+)?\]$/)) {
+        var key = paramName.replace(/\[(\d+)?\]/, '');
+        if (!obj[key]) obj[key] = [];
+
+        if (paramName.match(/\[\d+\]$/)) {
+          var index = /\[(\d+)\]/.exec(paramName)[1];
+          obj[key][index] = paramValue;
+        } else {
+          obj[key].push(paramValue);
+        }
+      } else {
+        if (!obj[paramName]) {
+          obj[paramName] = paramValue;
+        } else if (obj[paramName] && typeof obj[paramName] === 'string') {
+          obj[paramName] = [obj[paramName]];
+          obj[paramName].push(paramValue);
+        } else {
+          obj[paramName].push(paramValue);
+        }
+      }
+    }
+
+    return obj;
+  };
+
+  const viewOrderDetails = function () {
+    const params = getAllUrlParams();
+    if (params == null) {
+      return;
+    }
+    let ajax = $.ajax({
+      data: {order_id: params.id},
+      method: 'GET',
+      url: Variables.backendURL + 'order/get_order_data'
+    });
+    ajax.done(function (data) {
+      const nombre_recicla_tendero = data.nombre_recicla_tendero == null 
+        ? 'No asignado' : data.nombre_recicla_tendero + ' ' + data.apellido_recicla_tendero;
+      const html = '<div class="col-12">' +
+          '<p><b>Fecha</b>: ' + data.fecha + '</p>' +
+          '<p><b>Nombre cliente</b>: ' + (data.nombre_cliente + ' ' + data.apellido_cliente) + '</p>' +
+          '<p><b>Nombre reciclatendero</b>: ' + nombre_recicla_tendero + '</p>' +
+          '<p><b>Fecha recogida</b>: ' + data.fecha_recogida + '</p>' +
+        '</div>'+
+        '<div class="col-12">' +
+          '<p><b>Departamento</b>: ' + data.departamento + '</p>' +
+          '<p><b>Ciudad</b>: ' + data.ciudad + '</p>' +
+          '<p><b>Comentario</b>: ' + data.comentario + '</p>' +
+        '</div>' +
+        '<div class="col-12">' +
+          '<br>' +
+          '<p><b>Objetos de la solicitud:</b></p><ul class="js-order-items"></ul>' +
+        '</div>';
+      let detailsAjax = $.ajax({
+        data: { order_id: params.id },
+        method: 'GET',
+        url: Variables.backendURL + 'order/get_order_details'
+      });
+      $('.js-order-details').html(html);
+      detailsAjax.done(function (detailsData) {
+        const detailsHtml = detailsData.reduce(function (carry, item) {
+          const detailHtml = '<li><p>- <b>' + item.nombre_categoria + '</b>: $ ' + item.precio + ' -> ' + item.cantidad + ' ' + item.medida + '(s)</p></li>';
+          return carry + detailHtml;
+        }, '');
+        $('.js-order-items').html(detailsHtml);
+      });
     });
   };
 
