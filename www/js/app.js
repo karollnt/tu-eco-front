@@ -79,7 +79,7 @@ var app = {
     });
     request.done(function (data) {
       const html = data.reduce(function (prev, current) {
-        const selected = (user!= null && user.id_departamento == current.id) ? ' selected' : '';
+        const selected = (user!= null && app.user.id_ciudad == current.id) ? ' selected' : '';
         return prev + '<option value="' + current.id + '"' + selected + '>' + current.nombre + '</option>';
       }, '<option value="">Ciudad</option>');
       $(targetSelector).html(html);

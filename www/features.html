@@ -142,7 +142,23 @@
                       <select id="edit-city" name="id_ciudad" class="form_input required js-edit-user-city"></select>
                     </div>
                     <div class="form_row">
-                      <button class="btn">Actualizar datos</button>
+                      <button class="btn" type="submit">Actualizar datos</button>
+                    </div>
+                  </form>
+                  <form class="js-edit-user-pass-form contactform display-none">
+                    <h3>Editar contrase&ntilde;a</h3>
+                    <input type="hidden" name="user_id" value="" class="js-edit-password-id">
+                    <div class="form_row">
+                      <label for="edit-new-password">Nueva contrase&ntilde;a</label>
+                      <input type="password" id="edit-new-password" name="clave" value="" class="form_input required js-edit-user-pass-1">
+                    </div>
+                    <div class="form_row">
+                      <label for="edit-new-password-2">Repita la nueva contrase&ntilde;a</label>
+                      <input type="password" id="edit-new-password-2" name="clave-1" value="" class="form_input required js-edit-user-pass-2">
+                    </div>
+                    <div class="form_row">
+                      <button class="btn" type="submit">Actualizar datos</button>
+                      <p class="js-update-pass-message"></p>
                     </div>
                   </form>
                 </div>

@@ -16,6 +16,7 @@ const User = (function () {
     if (typeof isUserDetailsPage !== 'undefined' && isUserDetailsPage) {
       setDetailsEvents();
       loadDepartment('.js-edit-user-department');
+      $('.js-edit-password-id').val(currentUser.id);
     }
   };
 
@@ -112,7 +113,9 @@ const User = (function () {
   const setDetailsEvents = function () {
     $(document)
       .on('click', '.js-show-edit-form', showEditDataForm)
+      .on('click', '.js-show-update-pass', showEditDataForm)
       .on('change', '.js-edit-user-department', app.fillCitiesSelect)
+      .on('submit', '.js-edit-user-pass-form', sendUpdatePasswordForm)
       .on('submit', '.js-edit-user-data-form', sendEditDataForm);
   };
 
@@ -131,7 +134,7 @@ const User = (function () {
     });
     request.done(function (data) {
       const html = data.reduce(function (prev, current) {
-        const selected = user.id_departamento == current.id ? ' selected' : '';
+        const selected = app.user.id_departamento == current.id ? ' selected' : '';
         return prev + '<option value="' + current.id + '"' + selected + '>' + current.nombre + '</option>';
       }, '<option value="">Departamento</option>');
       $(inputSelector).html(html).trigger('change');
@@ -143,7 +146,7 @@ const User = (function () {
     let form = $(ev.target);
     let request = $.ajax({
       url: Variables.backendURL + 'user/edit_data',
-      method: 'POST',
+      method: 'PUT',
       data: form.serialize()
     });
     request.done(function (data) {
@@ -155,6 +158,33 @@ const User = (function () {
         location.reload();
         return;
       }
+    });
+  };
+
+  const sendUpdatePasswordForm = function (ev) {
+    let messageContainer = $('.js-update-pass-message');
+    messageContainer.html('...');
+    ev.preventDefault();
+    const pass1 = document.querySelector('.js-edit-user-pass-1').value;
+    const pass2 = document.querySelector('.js-edit-user-pass-2').value;
+    if (pass1 != pass2) {
+      messageContainer.html('Las claves no coinciden, por favor verifique');
+      return;
+    }
+    let form = $(ev.target);
+    let request = $.ajax({
+      url: Variables.backendURL + 'user/update_password',
+      method: 'PUT',
+      data: form.serialize()
+    });
+    request.done(function (data) {
+      if (data.valid == true) {
+        location.reload();
+        return;
+      }
+      messageContainer.html('Ocurri&oacute; un problema, intente de nuevo m&aacute;s tarde');
+    }).fail(function () {
+      messageContainer.html('Ocurri&oacute; un problema, intente de nuevo m&aacute;s tarde');
     });
   };
 
