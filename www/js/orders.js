@@ -94,16 +94,16 @@ const Orders = (function () {
       }
       const orderListHtml = data.reduce(function (carry, item) {
         const itemHtml = '<li>'+
+          '<p>Fecha para recoger: ' + item.fecha + '</p>' +
+          '<p' + (item.fecha_recogida != null && (item.fecha_recogida).indexOf('0000') < 0 ? ' class="color-primary-0"' : '') + '>' +
+            'Fecha recogido: ' + (item.fecha_recogida != null ? item.fecha_recogida.split(' ')[0] : 'No recogido') + '</p>' +
           '<div class="row">' +
-            '<div class="col-7">' +
-              '<p>Fecha: ' + item.fecha + '</p>' +
-              '<p' + (item.fecha_recogida != null && (item.fecha_recogida).indexOf('0000') < 0 ? ' class="color-primary-0"' : '') + '>' +
-                'Fecha recogido: ' + (item.fecha_recogida != null ? item.fecha_recogida.split(' ')[0] : 'No recogido') + '</p>' +
+            '<div class="col-8">' +
               '<p>Ciudad: ' + item.ciudad + '</p>' +
               '<p>Departamento: ' + item.departamento + '</p>' +
             '</div>' +
-            '<div class="col-5">' +
-              '<a href="detalle-solicitud.html?id=' + item.id + '" class="btn">Ver detalles</a>' +
+            '<div class="col-4">' +
+              '<a href="detalle-solicitud.html?id=' + item.id + '" class="btn">Ver m&aacute;s</a>' +
             '</div>' +
           '</div>' +
         '</li>';
@@ -166,20 +166,29 @@ const Orders = (function () {
     ajax.done(function (data) {
       const nombre_recicla_tendero = data.nombre_recicla_tendero == null 
         ? 'No asignado' : data.nombre_recicla_tendero + ' ' + data.apellido_recicla_tendero;
-      const html = '<div class="col-12">' +
-          '<p><b>Fecha</b>: ' + data.fecha + '</p>' +
-          '<p><b>Nombre cliente</b>: ' + (data.nombre_cliente + ' ' + data.apellido_cliente) + '</p>' +
-          '<p><b>Nombre reciclatendero</b>: ' + nombre_recicla_tendero + '</p>' +
-          '<p><b>Fecha recogida</b>: ' + data.fecha_recogida + '</p>' +
-        '</div>'+
-        '<div class="col-12">' +
-          '<p><b>Departamento</b>: ' + data.departamento + '</p>' +
-          '<p><b>Ciudad</b>: ' + data.ciudad + '</p>' +
-          '<p><b>Comentario</b>: ' + data.comentario + '</p>' +
+      const html = '<div class="col-6">' +
+          '<p><b>Fecha para recoger</b><br>' + data.fecha + '</p>' +
+        '</div>' +
+        '<div class="col-6">' +
+          '<p><b>Fecha recogida</b><br>' + (data.fecha_recogida ? data.fecha_recogida : 'No recogido') + '</p>' +
         '</div>' +
         '<div class="col-12">' +
-          '<br>' +
+          '<p><b>Nombre cliente</b>: ' + (data.nombre_cliente + ' ' + data.apellido_cliente) + '</p>' +
+        '</div>' +
+        '<div class="col-6">' +
+          '<p><b>Departamento</b>: ' + data.departamento + '</p>' +
+          '<p><b>Ciudad</b>: ' + data.ciudad + '</p>' +
+          '<p><b>Direcci&oacute;n</b>: ' + data.direccion + '</p>' +
+          '<p><b>Comentario</b>: ' + data.comentario + '</p>' +
+        '</div>' +
+        '<div class="col-6">' +
+          '<p><b>Reciclatendero</b>:</p>' +
+          '<img src="' + (data.nombre_recicla_tendero == null ? 'images/avatar.jpg' : data.foto) + '">' +
+          '<p><b>' + nombre_recicla_tendero + '</b></p>' +
+        '</div>' +
+        '<div class="col-12">' +
           '<p><b>Objetos de la solicitud:</b></p><ul class="js-order-items"></ul>' +
+          '<p><b>Total:</b> $<span class="js-total-price"></span></p>' +
         '</div>';
       let detailsAjax = $.ajax({
         data: { order_id: params.id },
@@ -188,11 +197,16 @@ const Orders = (function () {
       });
       $('.js-order-details').html(html);
       detailsAjax.done(function (detailsData) {
+        let total = 0;
         const detailsHtml = detailsData.reduce(function (carry, item) {
-          const detailHtml = '<li><p>- <b>' + item.nombre_categoria + '</b>: $ ' + item.precio + ' -> ' + item.cantidad + ' ' + item.medida + '(s)</p></li>';
+          const lineItemPrice = item.precio * item.cantidad;
+          total += lineItemPrice;
+          const detailHtml = '<li><p>- <b>' + item.nombre_categoria + '</b>: $ ' + lineItemPrice + ' - ' +
+            item.cantidad + ' ' + item.medida + '(s) -> $' + (item.precio * 1) + ' / ' + item.medida + '</p></li>';
           return carry + detailHtml;
         }, '');
         $('.js-order-items').html(detailsHtml);
+        $('.js-total-price').html(total);
       });
     });
   };

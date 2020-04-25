@@ -67,7 +67,9 @@ const User = (function () {
 
   const setUserDataStrings = function (user) {
     $('.js-user-name-tag').html(user.nombre);
-    $('.js-user-image').prop('src', user.foto);
+    if (user.foto != '') {
+      $('.js-user-image').prop('src', user.foto);
+    }
     if (typeof isUserDetailsPage !== 'undefined' && isUserDetailsPage) {
       $('.js-user-data-name').html(user.nombre + ' ' + user.apellido);
       $('.js-user-data-address').html(user.direccion + (', ' + user.ciudad + ', ' + user.departamento));
