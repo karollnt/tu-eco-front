@@ -73,11 +73,12 @@ const User = (function () {
       $('.js-user-data-address').html(user.direccion + (', ' + user.ciudad + ', ' + user.departamento));
       $('.js-user-data-phone').html(user.telefono);
 
-      $('.js-edit-user-name').html(user.nombre);
-      $('.js-edit-user-surname').html(user.apellido);
-      $('.js-edit-user-identity').html(user.identificacion);
-      $('.js-edit-user-phone').html(user.telefono);
-      $('.js-edit-user-address').html(user.direccion);
+      $('.js-edit-user-name').val(user.nombre);
+      $('.js-edit-user-surname').val(user.apellido);
+      $('.js-edit-user-identity').val(user.identificacion);
+      $('.js-edit-user-phone').val(user.telefono);
+      $('.js-edit-user-address').val(user.direccion);
+      $('.js-edit-data-user-id').val(user.id);
     }
   };
 
@@ -146,16 +147,15 @@ const User = (function () {
     let form = $(ev.target);
     let request = $.ajax({
       url: Variables.backendURL + 'user/edit_data',
-      method: 'PUT',
+      method: 'POST',
       data: form.serialize()
     });
     request.done(function (data) {
       if (data.valid == true) {
-        const user = { id: data.id };
-        const userString = JSON.stringify(user);
-        app.user = JSON.parse(userString);
-        window.localStorage.setItem('user', userString);
-        location.reload();
+        getUserData(app.user.id);
+        setTimeout(() => {
+          location.reload();
+        }, 500);
         return;
       }
     });
@@ -174,7 +174,7 @@ const User = (function () {
     let form = $(ev.target);
     let request = $.ajax({
       url: Variables.backendURL + 'user/update_password',
-      method: 'PUT',
+      method: 'POST',
       data: form.serialize()
     });
     request.done(function (data) {

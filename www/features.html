@@ -30,6 +30,11 @@
     .color-secondary-2-2 { color: #8AB021 }
     .color-secondary-2-3 { color: #527000 }
     .color-secondary-2-4 { color: #354800 }
+
+    .editform {margin-bottom: 40px;}
+    .editform .form_row {float: none;}
+    .form_row--button {margin-top: 20px;}
+    .update-buttons {margin-top: 20px;}
   </style>
 </head>
 <body id="mobile_wrap">
@@ -104,15 +109,18 @@
                           <dt>Telefono:</dt>
                           <dd class="js-user-data-phone">-</dd>
                         </dl>
-                        <button class="btn js-show-edit-form" data-target=".js-edit-user-data-form">Modificar datos</button>
-                        <button class="btn js-show-update-pass" data-target=".js-edit-user-pass-form">Cambiar clave</button>
                       </div>
                     </div>
+                    <div class="update-buttons">
+                      <button class="btn js-show-edit-form" data-target=".js-edit-user-data-form">Modificar datos</button>
+                      <button class="btn js-show-update-pass" data-target=".js-edit-user-pass-form">Cambiar clave</button>
+                    </div>
                   </div>
-                  <form class="contactform display-none js-edit-user-data-form">
+                  <form class="contactform editform display-none js-edit-user-data-form">
                     <h3>Editar datos</h3>
                     <input type="hidden" name="id_perfil" value="1">
                     <input type="hidden" name="id_tipo_identidad" value="1">
+                    <input type="hidden" name="id" value="0" class="js-edit-data-user-id">
                     <div class="form_row">
                       <label for="edit-name">Nombre(s)</label>
                       <input type="text" id="edit-name" name="nombre" value="" class="form_input required js-edit-user-name">
@@ -135,17 +143,21 @@
                     </div>
                     <div class="form_row">
                       <label for="edit-department">Departamento</label>
-                      <select id="edit-department" name="departamento" class="form_input required js-edit-user-department" data-target=".js-edit-user-city"></select>
+                      <div class="selector_overlay">
+                        <select id="edit-department" name="departamento" class="form_input required js-edit-user-department" data-target=".js-edit-user-city"></select>
+                      </div>
                     </div>
                     <div class="form_row">
                       <label for="edit-city">Ciudad</label>
-                      <select id="edit-city" name="id_ciudad" class="form_input required js-edit-user-city"></select>
+                      <div class="selector_overlay">
+                        <select id="edit-city" name="id_ciudad" class="form_input required js-edit-user-city"></select>
+                      </div>
                     </div>
-                    <div class="form_row">
+                    <div class="form_row form_row--button">
                       <button class="btn" type="submit">Actualizar datos</button>
                     </div>
                   </form>
-                  <form class="js-edit-user-pass-form contactform display-none">
+                  <form class="editform js-edit-user-pass-form contactform display-none">
                     <h3>Editar contrase&ntilde;a</h3>
                     <input type="hidden" name="user_id" value="" class="js-edit-password-id">
                     <div class="form_row">
@@ -156,7 +168,7 @@
                       <label for="edit-new-password-2">Repita la nueva contrase&ntilde;a</label>
                       <input type="password" id="edit-new-password-2" name="clave-1" value="" class="form_input required js-edit-user-pass-2">
                     </div>
-                    <div class="form_row">
+                    <div class="form_row form_row--button">
                       <button class="btn" type="submit">Actualizar datos</button>
                       <p class="js-update-pass-message"></p>
                     </div>
