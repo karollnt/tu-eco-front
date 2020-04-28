@@ -32,6 +32,7 @@ const Orders = (function () {
       const valueString = current.id + ';' + (current.precio * 1);
       const currentHtml = '<li class="row">' +
         '<div class="col-4">' +
+          '<img src = "' + current.foto + '">' +
           '<label class="label-checkbox item-content" for="category_' + current.id + '">' +
             '<input type="checkbox" id="category_' + current.id + '" name="category" class="js-category-item" value="' + valueString + '" data-id="' + current.id + '"> ' +
             '<span class="item-title">' + current.nombre + '</span>' +
