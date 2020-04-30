@@ -35,6 +35,7 @@
     .editform .form_row {float: none;}
     .form_row--button {margin-top: 20px;}
     .update-buttons {margin-top: 20px;}
+    .btn--short {padding: 12px;}
   </style>
 </head>
 <body id="mobile_wrap">
@@ -97,10 +98,13 @@
                 <div class="layout_fullwidth_padding">
                   <div class="js-user-data">
                     <div class="row">
-                      <div class="col-3">
+                      <div class="col-4">
                         <img src="images/avatar3.jpg" class="js-user-image" alt="" title="" />
+                        <div class="update-buttons">
+                          <button class="btn btn--short js-show-edit-form" data-target=".js-edit-user-photo-form">Cambiar foto</button>
+                        </div>
                       </div>
-                      <div class="col-9">
+                      <div class="col-8">
                         <dl>
                           <dt>Nombre:</dt>
                           <dd class="js-user-data-name">-</dd>
@@ -109,13 +113,26 @@
                           <dt>Telefono:</dt>
                           <dd class="js-user-data-phone">-</dd>
                         </dl>
+                        <div class="update-buttons">
+                          <button class="btn js-show-edit-form" data-target=".js-edit-user-data-form">Modificar datos</button>
+                        </div>
+                        <div class="update-buttons">
+                          <button class="btn js-show-update-pass" data-target=".js-edit-user-pass-form">Cambiar clave</button>
+                        </div>
                       </div>
                     </div>
-                    <div class="update-buttons">
-                      <button class="btn js-show-edit-form" data-target=".js-edit-user-data-form">Modificar datos</button>
-                      <button class="btn js-show-update-pass" data-target=".js-edit-user-pass-form">Cambiar clave</button>
-                    </div>
                   </div>
+                  <form class="js-edit-user-photo-form contactform editform display-none" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="user_id" value="0" class="js-edit-photo-user-id">
+                    <div class="form_row">
+                      <label for="update_photo">Adjuntar archivo</label>
+                      <input type="file" name="image" class="form_input required" id="update_photo">
+                    </div>
+                    <div class="form_row form_row--button">
+                      <button class="btn" type="submit">Actualizar foto</button>
+                    </div>
+                    <p class="js-update-photo-message"></p>
+                  </form>
                   <form class="contactform editform display-none js-edit-user-data-form">
                     <h3>Editar datos</h3>
                     <input type="hidden" name="id_perfil" value="1">

@@ -81,6 +81,7 @@ const User = (function () {
       $('.js-edit-user-phone').val(user.telefono);
       $('.js-edit-user-address').val(user.direccion);
       $('.js-edit-data-user-id').val(user.id);
+      $('.js-edit-photo-user-id').val(user.id);
     }
   };
 
@@ -119,7 +120,8 @@ const User = (function () {
       .on('click', '.js-show-update-pass', showEditDataForm)
       .on('change', '.js-edit-user-department', app.fillCitiesSelect)
       .on('submit', '.js-edit-user-pass-form', sendUpdatePasswordForm)
-      .on('submit', '.js-edit-user-data-form', sendEditDataForm);
+      .on('submit', '.js-edit-user-data-form', sendEditDataForm)
+      .on('submit', '.js-edit-user-photo-form', checkEditPhoto);
   };
 
   const showEditDataForm = function (ev) {
@@ -178,6 +180,31 @@ const User = (function () {
       url: Variables.backendURL + 'user/update_password',
       method: 'POST',
       data: form.serialize()
+    });
+    request.done(function (data) {
+      if (data.valid == true) {
+        location.reload();
+        return;
+      }
+      messageContainer.html('Ocurri&oacute; un problema, intente de nuevo m&aacute;s tarde');
+    }).fail(function () {
+      messageContainer.html('Ocurri&oacute; un problema, intente de nuevo m&aacute;s tarde');
+    });
+  };
+
+  const checkEditPhoto = function (ev) {
+    ev.preventDefault();
+    let messageContainer = $('.js-update-photo-message');
+    messageContainer.html('...');
+    const formData = new FormData(ev.target);
+    let request = $.ajax({
+      async: false,
+      cache: false,
+      contentType: false,
+      url: Variables.backendURL + 'user/update_image',
+      method: 'POST',
+      processData: false,
+      data: formData
     });
     request.done(function (data) {
       if (data.valid == true) {
