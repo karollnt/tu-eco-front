@@ -1,3 +1,3 @@
 const Variables = {
-  backendURL: 'https://tu-eco-back.herokuapp.com/'
+  backendURL: 'https://localhost/tu-eco-back/'
 };
